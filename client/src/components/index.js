@@ -10,3 +10,4 @@ export { default as SearchOfPeople } from './SearchOfPeople'
 export { default as DetailRoom } from './SearchOfPeople'
 
 //abc
+//haha
