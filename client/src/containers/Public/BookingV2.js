@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import icons from '../../ultils/icon'
 import { Navigate, useNavigate } from 'react-router-dom'
+import { apiZaloPay } from '../../services/ZaloPay'
 
 
 const { TbCircleNumber1, TbCircleNumber2, TbCircleNumber3, GoDotFill, FaCheck, RxAvatar } = icons
@@ -42,6 +43,16 @@ const BookingV2 = () => {
         const secs = seconds % 60
         return `00:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
     }
+
+    const handlePayment = async (redirectUrl, amount) => {
+        try {
+            const paymentData = await apiZaloPay({ redirectUrl, amount });
+            // Xử lý dữ liệu phản hồi, ví dụ: chuyển hướng người dùng tới URL thanh toán
+            window.location.href = paymentData.order_url;
+        } catch (error) {
+            console.error("Error during payment:", error);
+        }
+    };
 
     return (
         <div className='bg-[#F7F9FA] w-full '>
@@ -149,7 +160,12 @@ const BookingV2 = () => {
                                     <span className='font-bold text-xl text-orange-500'>2.504.066 VND</span>
                                 </div>
                                 <div className='p-5 bg-white rounded-lg flex flex-col gap-3'>
-                                    <button className='bg-orange-500 text-white font-semibold text-lg p-3 rounded-lg hover:bg-orange-700'>{isShowOptioneVietQR ? `Thanh toán bằng VietQR` : `Thanh toán bằng ZaloPay`}</button>
+                                    <button
+                                        className='bg-orange-500 text-white font-semibold text-lg p-3 rounded-lg hover:bg-orange-700'
+                                        onClick={() => handlePayment('http://localhost:3000/', 100)}
+                                    >
+                                        {isShowOptioneVietQR ? `Thanh toán bằng VietQR` : `Thanh toán bằng ZaloPay`}
+                                    </button>
                                     <span className='text-sm text-center'>Bằng việc tiếp tục thanh toán, bạn đã đồng ý với Điều khoản & Điều kiện cũng như Chính sách quyền riêng tư của Traveloka.</span>
                                 </div>
                             </div>
