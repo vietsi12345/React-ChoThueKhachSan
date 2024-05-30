@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
-import * as actiocs from '../../store/actions'
+
+
 
 
 const Login = () => {
@@ -23,7 +24,6 @@ const Login = () => {
         } else if (password.length <= 8) {
             setErrorPassWord('Mật khẩu phải đủ tối thiểu 8 kí tự')
         } else setErrorPassWord('')
-
     };
     useEffect(() => {
         window.scrollTo(0, 0);
