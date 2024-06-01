@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import icons from '../../ultils/icon'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { apiZaloPay } from '../../services/ZaloPay'
+import { formatMonneyVietNam } from '../../ultils/common/formatMonneyVietNam'
+import { formatVietNameseToSring } from '../../ultils/common/formatVietNameseToSring'
+import * as actions from '../../store/actions'
 
 
 const { TbCircleNumber1, TbCircleNumber2, TbCircleNumber3, GoDotFill, FaCheck, RxAvatar } = icons
@@ -11,7 +15,11 @@ const BookingV2 = () => {
     const [selectedOption, setSelectedOption] = useState('vietQR');
     const [isShowOptioneVietQR, setIsShowOptioneVietQR] = useState(true)
     const navigate = useNavigate()
-
+    const dispatch = useDispatch()
+    const location = useLocation();
+    const { nameHotel, roomType, total, name, phone, email, idHotel, idRoom } = location.state || {};
+    const { dataPostNew } = useSelector(state => state.booking)
+    // console.log(confirmationCode)
     const handleChange = (e) => {
         const value = e.target.value;
         setSelectedOption(value);
@@ -22,7 +30,7 @@ const BookingV2 = () => {
         }
     };
 
-    const goHome = () => {
+    const goHome = async () => {
         navigate('/')
     }
 
@@ -36,7 +44,24 @@ const BookingV2 = () => {
 
     useEffect(() => {
         window.scrollTo(0, 0)
+        const bookingData = {
+            checkInDate: "2024-06-02",
+            checkOutDate: "2024-06-03",
+            guestFullName: "Nguyễn Viết Sĩaaaa",
+            guestEmail: "adadad",
+            numOfAdults: 1,
+            numOfChildren: 2,
+            note: "200",
+            totalPrice: 200,
+            roomId: 1,
+            hotelId: 1
+        }
+        dispatch(actions.postNewCreateBooking(bookingData))
     }, [])
+
+    const getConfirmationCode = () => {
+        return dataPostNew?.message?.match(/\d+$/)[0];
+    }
 
     const formatTime = (seconds) => {
         const minutes = Math.floor(seconds / 60)
@@ -45,14 +70,17 @@ const BookingV2 = () => {
     }
 
     const handlePayment = async (redirectUrl, amount) => {
-        try {
-            const paymentData = await apiZaloPay({ redirectUrl, amount });
-            // Xử lý dữ liệu phản hồi, ví dụ: chuyển hướng người dùng tới URL thanh toán
-            window.location.href = paymentData.order_url;
-        } catch (error) {
-            console.error("Error during payment:", error);
+        if (!isShowOptioneVietQR) {
+            try {
+                const paymentData = await apiZaloPay({ redirectUrl, amount });
+                // Xử lý dữ liệu phản hồi, ví dụ: chuyển hướng người dùng tới URL thanh toán
+                window.location.href = paymentData.order_url;
+            } catch (error) {
+                console.error("Error during payment:", error);
+            }
         }
     };
+
 
     return (
         <div className='bg-[#F7F9FA] w-full '>
@@ -157,12 +185,12 @@ const BookingV2 = () => {
                             <div className='flex flex-col gap-3'>
                                 <div className='flex justify-between p-3'>
                                     <span className='font-bold text-xl'>Tổng giá</span>
-                                    <span className='font-bold text-xl text-orange-500'>2.504.066 VND</span>
+                                    <span className='font-bold text-xl text-orange-500'>{formatMonneyVietNam(total)}</span>
                                 </div>
                                 <div className='p-5 bg-white rounded-lg flex flex-col gap-3'>
                                     <button
                                         className='bg-orange-500 text-white font-semibold text-lg p-3 rounded-lg hover:bg-orange-700'
-                                        onClick={() => handlePayment('http://localhost:3000/', 100)}
+                                        onClick={() => handlePayment(`http://localhost:3000/booking/v3/${formatVietNameseToSring(nameHotel)}/${idHotel}/${formatVietNameseToSring(nameHotel)}/${idRoom}`, total)}
                                     >
                                         {isShowOptioneVietQR ? `Thanh toán bằng VietQR` : `Thanh toán bằng ZaloPay`}
                                     </button>
@@ -176,11 +204,11 @@ const BookingV2 = () => {
                                     <img src='https://d1785e74lyxkqq.cloudfront.net/_next/static/v2/6/6aa2fd01a9460e1a71bb0efb713f0212.svg' />
                                     <div>
                                         <h3 className='font-semibold text-base'>Tóm tắt khách sạn</h3>
-                                        <span className='text-sm text-gray-500'>Mã đặt chỗ  1147784241</span>
+                                        <span className='text-sm text-gray-500'>{`Mã đặt chỗ  ${getConfirmationCode()}`}</span>
                                     </div>
                                 </div>
                                 <div className='p-4 flex flex-col justify-center '>
-                                    <h3 className='font-semibold text-base text-center'>Khách Sạn Citadines Bayfront Nha Trang</h3>
+                                    <h3 className='font-semibold text-base text-center'>{nameHotel}</h3>
                                     <div className='flex gap-5 px-4 justify-center' >
                                         <span className='text-base text-gray-500'>Ngày nhận phòng: </span>
                                         <span className='text-base text-black'>Tue, 28 May 2024, Từ 15:00</span>
@@ -191,7 +219,7 @@ const BookingV2 = () => {
                                     </div>
                                 </div>
                                 <div className='bg-white flex flex-col p-4 gap-3 rounded-md'>
-                                    <h3 className='font-semibold  mt-3'>Tên loại phòng</h3>
+                                    <h3 className='font-semibold  mt-3'>{roomType}</h3>
                                     <div className='flex gap-3 items-center'>
                                         <img src='https://d1785e74lyxkqq.cloudfront.net/_next/static/v2/3/377ee1b8105881b249bd015d717ccf4f.svg' />
                                         <span className='text-base text-gray-600'>3 khách</span>
@@ -210,7 +238,7 @@ const BookingV2 = () => {
                                     </div>
                                     <div>
                                         <h3 className='font-semibold mt-3'>Tên khách</h3>
-                                        <span className='text-base text-gray-600'>Nguyen Viet Si</span>
+                                        <span className='text-base text-gray-600'>{name}</span>
                                         <div className='flex items-center gap-2 px-3'>
                                             <FaCheck color='green' />
                                             <span className='text-base text-black'>Miễn phí hủy phòng</span>
@@ -227,9 +255,9 @@ const BookingV2 = () => {
                                 <div className='flex items-center gap-3'>
                                     <RxAvatar size={25} />
                                     <div className='flex flex-col'>
-                                        <span className='text-base'>Nguyen Viet Si</span>
-                                        <span className='text-base text-gray-600'>+847287432</span>
-                                        <span className='text-base text-gray-600'>nguyenvietsi12@gmail.com</span>
+                                        <span className='text-base'>{name}</span>
+                                        <span className='text-base text-gray-600'>{phone}</span>
+                                        <span className='text-base text-gray-600'>{email}</span>
                                     </div>
                                 </div>
                             </div>

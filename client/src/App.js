@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { Header, Home, HomePage, DetailHome, Login, Register, Booking, BookingV2 } from './containers/Public'
+import { Header, Home, HomePage, DetailHome, Login, Register, Booking, BookingV2, BookingV3 } from './containers/Public'
 import { path } from "./ultils/constain";
 import { System } from "./containers/System";
 
@@ -15,8 +15,8 @@ function App() {
         </Route>
         <Route path={path.BOOKING} element={<Booking />} />
         <Route path={path.BOOKINGV2} element={<BookingV2 />} />
+        <Route path={path.BOOKINGV3} element={<BookingV3 />} />
         <Route path={path.SYSTEM} element={<System />} />
-
       </Routes>
     </div>
   );

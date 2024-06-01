@@ -4,19 +4,26 @@ import { Link } from 'react-router-dom'
 import { formatVietNameseToSring } from '../ultils/common/formatVietNameseToSring'
 import { formatMonneyVietNam } from '../ultils/common/formatMonneyVietNam'
 
-const { IoLocation } = icons
+const { IoLocation, FaStar } = icons
 
-const ItemHome = ({ city, name, price, image, id }) => {
+const ItemHome = ({ city, name, price, image, id, star }) => {
     return (
         <Link
             to={`/chi-tiet/${formatVietNameseToSring(name)}/${id}`}
-            className='flex flex-col gap-1.5 cursor-pointer'
+            className='flex flex-col gap-1 cursor-pointer'
         >
             <img src={`data:image/png;base64,${image}`}
-                className='w-[245px] h-[200px] object-contain'
+                className='w-[245px] h-[200px] object-cover shadow-xl rounded-md'
             />
-            <span className='font-semibold'>{name}</span>
-            <div className='flex items-center'>
+            <span className='font-semibold w-[245px]'>{name}</span>
+            <div className='flex items-center gap-1'>
+                {(() => {
+                    let stars = [];
+                    for (let i = 1; i <= star; i++) {
+                        stars.push(<FaStar color='green' key={i} size={15} />);
+                    }
+                    return stars;
+                })()}
                 <IoLocation className="text-blue-400" />
                 <span className='text-blue-400 text-sm'>{city}</span>
             </div>

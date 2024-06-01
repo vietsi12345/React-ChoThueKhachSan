@@ -5,6 +5,7 @@ export const path = {
     DETAIL__NAME__ID: 'chi-tiet/:name/:id',
     BOOKING: '/booking/:nameHotel/:idhotel/:typeRoom/:idRoom',
     BOOKINGV2: '/booking/v2/:nameHotel/:idhotel/:typeRoom/:idRoom',
+    BOOKINGV3: '/booking/v3/:nameHotel/:idhotel/:typeRoom/:idRoom',
     SYSTEM: '/admin/*'
 }
 export const location = [

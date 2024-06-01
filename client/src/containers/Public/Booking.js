@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import icons from '../../ultils/icon'
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux'
 import { formatVietNameseToSring } from '../../ultils/common/formatVietNameseToSring';
+import { formatMonneyVietNam } from '../../ultils/common/formatMonneyVietNam';
+import * as actions from '../../store/actions'
+import { GiPodiumSecond } from 'react-icons/gi';
 
 const { TbCircleNumber1, TbCircleNumber2, TbCircleNumber3, CiClock2, IoIosCloseCircle } = icons
 
@@ -10,8 +14,22 @@ const Booking = () => {
     const [selectedOption, setSelectedOption] = useState('isMe');
     const [isShowNoMe, setIsShowNoMe] = useState(false)
     const [isShowAcpectPayment, setIsShowAcpectPayment] = useState(false)
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [phone, setPhone] = useState('')
+    const [nameNoME, setNameNoME] = useState('')
+    const [errorName, setErrorName] = useState('')
+    const [errorEmail, setErrorEmail] = useState('')
+    const [errorPhone, setErrorPhone] = useState('')
+    const [errorNameNoMe, setErrorNameNoMe] = useState('')
     const navigate = useNavigate()
     const location = useLocation()
+    const dispatch = useDispatch()
+
+
+    const { hotelByID } = useSelector(state => state.home)
+    const { roomById } = useSelector(state => state.room)
+
     const arrLocation = location.pathname.split('/')
     const nameHotel = arrLocation[2]
     const idHotel = arrLocation[3]
@@ -30,7 +48,29 @@ const Booking = () => {
     };
 
     const hanldeClickBtnThanhToan = () => {
-        setIsShowAcpectPayment(true)
+        let checkValidAll = true;
+
+        if (!name) {
+            setErrorName('Vui lòng điền đầy đủ họ và tên')
+            checkValidAll = false
+        } else setErrorName('')
+        if (!email) {
+            setErrorEmail('Vui lòng điền đầy đủ thông tin email')
+            checkValidAll = false
+        } else setErrorEmail('')
+        if (!phone) {
+            setErrorPhone('Vui lòng điền thông tin số điên thoại liên hệ')
+            checkValidAll = false
+        } else setErrorPhone('')
+        if (isShowNoMe) {
+            if (!nameNoME) {
+                setErrorNameNoMe('Vui lòng điền đầy đủ họ và tên khách')
+                checkValidAll = false
+            } else setErrorNameNoMe('')
+        }
+        if (checkValidAll) {
+            setIsShowAcpectPayment(true)
+        }
     }
 
     const handleClickBtnThayDoi = (e) => {
@@ -43,13 +83,25 @@ const Booking = () => {
     }
 
     const goBooKingV2 = () => {
-        navigate(`/booking/v2/${formatVietNameseToSring(nameHotel)}/${idHotel}/${formatVietNameseToSring(nameType)}/${idRoom}`)
+        navigate(`/booking/v2/${formatVietNameseToSring(nameHotel)}/${idHotel}/${formatVietNameseToSring(nameType)}/${idRoom}`, {
+            state: {
+                nameHotel: hotelByID.name,
+                roomType: roomById.roomType,
+                total: roomById?.roomPrice + Math.round(+roomById?.roomPrice * 1 / 100),
+                name: name,
+                phone: phone,
+                email: email,
+                idHotel: idHotel,
+                idRoom: idRoom,
+            }
+        })
     }
 
     useEffect(() => {
         window.scrollTo(0, 0)
+        dispatch(actions.getHotelByID(idHotel))
+        dispatch(actions.getRoomById(idRoom))
     }, [])
-
 
 
     return (
@@ -100,7 +152,10 @@ const Booking = () => {
                                     <input
                                         type='email'
                                         className="outline-none border border-gray-300 p-2 rounded-md w-full"
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
                                     />
+                                    {errorName && <div className='text-red-500 text-sm'>{errorName}</div>}
                                 </div>
                                 <div className='flex gap-3'>
                                     <div className='mt-7 flex flex-col gap-2 w-3/5'>
@@ -108,15 +163,21 @@ const Booking = () => {
                                         <input
                                             type='email'
                                             className="outline-none border border-gray-300 p-2 rounded-md w-full"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
                                         />
+                                        {errorEmail && <div className='text-red-500 text-sm'>{errorEmail}</div>}
                                         <span className='text-sm text-gray-500'>Chúng tôi sẽ gửi e-voucher tới email này.</span>
                                     </div>
                                     <div className='mt-7 flex flex-col gap-2 w-2/5'>
                                         <span>Số điện thoại</span>
                                         <input
-                                            type='email'
+                                            type='phone'
                                             className="outline-none border border-gray-300 p-2 rounded-md w-full"
+                                            value={phone}
+                                            onChange={(e) => setPhone(e.target.value)}
                                         />
+                                        {errorPhone && <div className='text-red-500 text-sm'>{errorPhone}</div>}
                                         <span className='text-sm text-gray-500'>ví dụ. +62812345678 gồm Mã quốc gia (+62) và Số di động 0812345678.</span>
                                     </div>
                                 </div>
@@ -149,9 +210,12 @@ const Booking = () => {
                                 {isShowNoMe ? <div className='mt-7 flex flex-col gap-2 '>
                                     <span>Tên đầy đủ của khách</span>
                                     <input
-                                        type='email'
+                                        type='namenome'
                                         className="outline-none border border-gray-300 p-2 rounded-md w-full"
+                                        value={nameNoME}
+                                        onChange={(e) => setNameNoME(e.target.value)}
                                     />
+                                    {errorNameNoMe && <div className='text-red-500 text-sm'>{errorNameNoMe}</div>}
                                     <span className='text-sm text-gray-500'>Nhập tên khách sẽ lưu trú.</span>
                                 </div> : null}
                             </div>
@@ -165,15 +229,15 @@ const Booking = () => {
                                 </div>
                                 <div className='flex justify-between'>
                                     <span>Giá phòng</span>
-                                    <span>2.504.066 VND</span>
+                                    <span>{roomById.roomPrice && formatMonneyVietNam(roomById?.roomPrice)}</span>
                                 </div>
                                 <div className='flex justify-between border-b border-black pb-3'>
                                     <span>Thuế và phí</span>
-                                    <span>388.131 VND</span>
+                                    <span>{roomById.roomPrice && formatMonneyVietNam(+roomById?.roomPrice * 1 / 100)}</span>
                                 </div>
                                 <div className='flex justify-between'>
                                     <span className='font-bold text-xl'>Tổng giá</span>
-                                    <span className='font-bold text-xl text-orange-500'>2.504.066 VND</span>
+                                    <span className='font-bold text-xl text-orange-500'>{roomById.roomPrice && formatMonneyVietNam(roomById?.roomPrice + +roomById?.roomPrice * 1 / 100)}</span>
                                 </div>
                             </div>
                             <div className='flex items-center justify-center gap-2'>
@@ -190,8 +254,8 @@ const Booking = () => {
                                 <div className='flex items-center gap-3 p-4 justify-center bg-white rounded-md'>
                                     <img src='https://d1785e74lyxkqq.cloudfront.net/_next/static/v2/6/6aa2fd01a9460e1a71bb0efb713f0212.svg' />
                                     <div>
-                                        <h3 className='font-semibold text-base'>Fusion Suites Vung Tau</h3>
-                                        <span className='text-sm text-gray-500'>Fusion Suites Vung Tau</span>
+                                        <h3 className='font-semibold text-base'>{hotelByID.name}</h3>
+                                        <span className='text-sm text-gray-500'>{hotelByID.name}</span>
                                     </div>
                                 </div>
                                 <div className='p-4 flex flex-col justify-center '>
@@ -205,10 +269,10 @@ const Booking = () => {
                                     </div>
                                 </div>
                                 <div className='bg-white flex flex-col p-4 gap-3 rounded-md'>
-                                    <img src='https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/20020369-35188bb523c9809ffbfdd92c2114cf9e.jpeg?_src=imagekit&tr=h-150,q-90,w-375'
+                                    <img src={roomById?.photo ? `data:image/png;base64,${roomById?.photo}` : null}
                                         className='w-[375px] h-[180px] shadow-xl mx-3 object-cover'
                                     />
-                                    <h3 className='font-semibold text-lg mt-3'>Tên loại phòng</h3>
+                                    <h3 className='font-semibold text-lg mt-3'>{roomById?.roomType}</h3>
                                     <div className='flex gap-3 items-center'>
                                         <img src='https://d1785e74lyxkqq.cloudfront.net/_next/static/v2/3/377ee1b8105881b249bd015d717ccf4f.svg' />
                                         <span className='text-base text-gray-600'>3 khách</span>
@@ -228,7 +292,7 @@ const Booking = () => {
                                     <div className='flex justify-between'>
                                         <span className='font-semibold'>Tổng giá phòng</span>
                                         <div className='flex flex-col gap-1'>
-                                            <span className='font-semibold text-orange-600'>924.666 VND</span>
+                                            <span className='font-semibold text-orange-600'>{formatMonneyVietNam(roomById?.roomPrice + +roomById?.roomPrice * 1 / 100)}</span>
                                             <div className='flex '>
                                                 <img src='https://ik.imagekit.io/tvlk/image/imageResource/2023/11/01/1698829441207-82213d07f4b2ba6faa56962a05138746.svg?tr=q-75'
                                                     className='w-[12px] h-[12px] object-cover'
@@ -277,8 +341,10 @@ const Booking = () => {
                             <img src='https://d1785e74lyxkqq.cloudfront.net/_next/static/v2/2/289132fc2c4e238ca785875d50fa98f1.svg'
                                 className='w-[124px] h-[28px] object-cover' />
                             <span>Tất cả thông tin bạn điền đã chính xác chưa?</span>
-                            <span className='px-10'>Email: nguyenvietsi12@gmail.com</span>
-                            <span className='px-10'>Số di động: +847287432</span>
+                            <span className='px-10'>{`Họ và tên: ${name}`}</span>
+                            <span className='px-10'>{`Email: ${email}`}</span>
+                            <span className='px-10'>{`Số di động: ${phone}`}</span>
+                            {isShowNoMe && <span className='px-10'>{`Họ và tên khách: ${nameNoME}`}</span>}
                             <span>Vé điện tử/phiếu thanh toán sẽ được gửi qua email và tóm tắt đặt chỗ sẽ được gửi đến số di động của bạn.</span>
                         </div>
                     </div>

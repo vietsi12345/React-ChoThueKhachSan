@@ -7,7 +7,6 @@ import { formatVietNameseToSring } from '../ultils/common/formatVietNameseToSrin
 const { IoBedOutline, IoPeopleOutline } = icons
 
 const Room = ({ nameType, price, nameHotel, idHotel, idRoom }) => {
-    console.log(nameType, price, nameHotel, idHotel, idRoom)
     const navigate = useNavigate()
 
     const handleGoBooking = () => {

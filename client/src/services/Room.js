@@ -23,3 +23,16 @@ export const apiGetTypeRoom = (idHotel) => new Promise(async (resolve, reject) =
         reject(error)
     }
 })
+
+export const apiGetRoomById = (idRoom) => new Promise(async (resolve, reject) => {
+    try {
+        const response = await axiosConfig({
+            method: 'get',
+            url: `/api/room/get/${idRoom}`
+        })
+        resolve(response)
+    } catch (error) {
+        reject(error)
+    }
+})
+

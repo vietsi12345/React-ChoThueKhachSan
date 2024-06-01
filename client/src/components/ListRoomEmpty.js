@@ -59,32 +59,6 @@ const ListRoomEmpty = ({ nameType, id, nameHotel }) => {
                         alt='anh'
                         className='w-[299px] h-[222px] rounded-xl'
                     />
-                    <div className='w-[299px] flex flex-wrap '>
-                        <div className='flex gap-2 w-1/2 p-2 '>
-                            <TbResize size='24' />
-                            <p>32.0 m2</p>
-                        </div>
-                        <div className='flex gap-2 w-1/2 p-2'>
-                            <IoLogoNoSmoking size='24' />
-                            <p>Không hút thuốc</p>
-                        </div>
-                        <div className='flex gap-2 w-1/2 p-2'>
-                            <GiShower size='24' />
-                            <p>Vòi tắm đứng</p>
-                        </div>
-                        <div className='flex gap-2 w-1/2 p-2'>
-                            <LuAirVent size='24' />
-                            <p>Máy lạnh</p>
-                        </div>
-                        <div className='flex gap-2 w-1/2 p-2'>
-                            <BiFridge size='24' />
-                            <p>Tủ lạnh</p>
-                        </div>
-                    </div>
-                    <div className='flex items-center gap-2 mt-2 cursor-pointer '>
-                        <TbListDetails size='22' color='blue' />
-                        <p className='text-blue-700 font-semibold hover:text-blue-400'>Chi tiết phòng</p>
-                    </div>
                 </div>
                 <div className='w-2/3 flex flex-col'>
                     <div className='flex w-[704px] bg-gray-200'>
@@ -109,6 +83,28 @@ const ListRoomEmpty = ({ nameType, id, nameHotel }) => {
                             />;
                         })
                     }
+                    <div className=' flex justify-around mt-3'>
+                        <div className='flex gap-2  p-2 '>
+                            <TbResize size='24' />
+                            <p>32.0 m2</p>
+                        </div>
+                        <div className='flex gap-2  p-2'>
+                            <IoLogoNoSmoking size='24' />
+                            <p>Không hút thuốc</p>
+                        </div>
+                        <div className='flex gap-2  p-2'>
+                            <GiShower size='24' />
+                            <p>Vòi tắm đứng</p>
+                        </div>
+                        <div className='flex gap-2  p-2'>
+                            <LuAirVent size='24' />
+                            <p>Máy lạnh</p>
+                        </div>
+                        <div className='flex gap-2  p-2'>
+                            <BiFridge size='24' />
+                            <p>Tủ lạnh</p>
+                        </div>
+                    </div>
                 </div>
             </div >
         </div >

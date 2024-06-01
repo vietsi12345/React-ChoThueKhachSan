@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ItemHome, NavbarDetail, SearchDetail, SearchOfPeople } from '../../components/';
 import OverviewDetail from '../../components/OverviewDetail';
 import RoomOfHome from '../../components/RoomOfHome';
@@ -26,12 +26,22 @@ const DetailHome = () => {
     const location = useLocation()
     const id = location.pathname.split('/').pop()
 
-
+    // xử lì chọnn ngày trên thanh search
+    const today = new Date();
+    const tomorrow = new Date();
+    tomorrow.setDate(today.getDate() + 1);
+    const [startDate, setStartDate] = useState(today);
+    const [endDate, setEndDate] = useState(tomorrow);
 
     return (
 
         <div className='w-full flex flex-col items-center gap-3 mb-10'>
-            <SearchDetail nameHotel={hotelByID.name} />
+            <SearchDetail nameHotel={hotelByID.name}
+                startDate={startDate}
+                endDate={endDate}
+                setStartDate={setStartDate}
+                setEndDate={setEndDate}
+            />
             <div className='w-[1100px] h-[288px] mt-5 flex gap-2'>
                 {hotelByID?.photo ? (
                     <img

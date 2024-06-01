@@ -9,13 +9,7 @@ import icons from '../ultils/icon'
 
 const { LuCalendarSearch } = icons
 
-const DatePicked = () => {
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
-
-    const getDayName = (date) => {
-        return date ? format(date, 'EEEE', { locale: vi }) : '';
-    };
+const DatePicked = ({ startDate, endDate, setStartDate, setEndDate }) => {
 
     return (
         <div className="date-inputs flex bg-white rounded-lg ">

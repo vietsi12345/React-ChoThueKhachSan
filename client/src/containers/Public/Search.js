@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { DatePicked, SearchItem, SearchOfPeople } from '../../components';
 import icons from '../../ultils/icon';
 import Provice from './Provice';
@@ -6,6 +6,13 @@ import Provice from './Provice';
 const { CiSearch, IoPeopleOutline, LuCalendarSearch } = icons
 
 const Search = () => {
+    // xử lì chọnn ngày trên thanh search
+    const today = new Date();
+    const tomorrow = new Date();
+    tomorrow.setDate(today.getDate() + 1);
+    const [startDate, setStartDate] = useState(today);
+    const [endDate, setEndDate] = useState(tomorrow);
+
     return (
         <div className='w-full relative'>
             <img src='https://cdn6.agoda.net/images/MVC/default/background_image/illustrations/bg-agoda-homepage.png'
@@ -26,7 +33,10 @@ const Search = () => {
                 </div>
                 <div className='w-full h-full flex justify-around gap-8 pb-10' >
                     <div className='w-[476.8px] '>
-                        <DatePicked />
+                        <DatePicked startDate={startDate}
+                            endDate={endDate}
+                            setStartDate={setStartDate}
+                            setEndDate={setEndDate} />
                     </div>
                     <div className='w-1/2'>
                         <SearchOfPeople />

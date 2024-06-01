@@ -1,4 +1,5 @@
 import axiosConfig from '../axiosConfig'
+import axios from 'axios'
 
 export const apiGetAlltHomes = () => new Promise(async (resolve, reject) => {
     try {

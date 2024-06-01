@@ -77,6 +77,7 @@ const ListHome = () => {
                                     price={e.price}
                                     image={e?.photo}
                                     id={e.id}
+                                    star={e?.rating}
                                 />
                             </div>
                         )

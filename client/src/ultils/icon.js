@@ -1,7 +1,7 @@
 
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { GiSelfLove, GiShower } from "react-icons/gi";
-import { FaMoneyBill } from "react-icons/fa";
+import { FaMoneyBill, FaStar } from "react-icons/fa";
 import { RxAvatar } from "react-icons/rx";
 import { IoMenuOutline, IoPeopleOutline, IoLocation, IoLogoNoSmoking, IoBedOutline } from "react-icons/io5";
 import { FaUserPlus, FaCheck } from "react-icons/fa6";
@@ -34,7 +34,7 @@ const icons = {
     BiFridge, LuAirVent, TbListDetails, IoBedOutline,
     IoIosCheckmark, CiClock2, GrCaretPrevious, GrCaretNext,
     TbCircleNumber1, TbCircleNumber2, TbCircleNumber3,
-    IoIosCloseCircle, CiPaperplane, GoDotFill, FaCheck
+    IoIosCloseCircle, CiPaperplane, GoDotFill, FaCheck, FaStar
 }
 
 export default icons

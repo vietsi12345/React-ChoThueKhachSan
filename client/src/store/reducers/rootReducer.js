@@ -6,6 +6,7 @@ import autoMergeLevel2 from "redux-persist/es/stateReconciler/autoMergeLevel2"
 import { persistReducer } from "redux-persist"
 import homeReducer from "./homeReducer";
 import { roomReducer } from "./roomReducer";
+import bookingReducer from "./bookingReducer";
 
 const commonConfig = {
     storage,
@@ -22,7 +23,8 @@ const rootReducer = combineReducers({
     auth: persistReducer(authConfig, authReducer),
     user: userReducer,
     home: homeReducer,
-    room: roomReducer
+    room: roomReducer,
+    booking: bookingReducer
 })
 
 export default rootReducer

@@ -3,7 +3,8 @@ import actionType from "../actions/actionType";
 const initstate = {
     roomsByIdHotel: [],
     msg: '',
-    typeRoom: []
+    typeRoom: [],
+    roomById: [],
 }
 
 export const roomReducer = (state = initstate, action) => {
@@ -18,6 +19,12 @@ export const roomReducer = (state = initstate, action) => {
             return {
                 ...state,
                 typeRoom: action.typeRooms || [],
+                msg: action.msg || [],
+            }
+        case actionType.GET_ROOMBYID:
+            return {
+                ...state,
+                roomById: action.roomById || [],
                 msg: action.msg || [],
             }
         default:

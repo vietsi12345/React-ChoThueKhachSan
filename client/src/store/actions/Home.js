@@ -13,7 +13,7 @@ export const getAllHome = () => async (dispath) => {
         } else {
 
             dispath({
-                type: actionType.GET_POSTS,
+                type: actionType.GET_ALLHOME,
                 msg: 'Lỗi'
             })
         }
