@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import { Header, Home, HomePage, DetailHome, Login, Register, Booking, BookingV2, BookingV3 } from './containers/Public'
 import { path } from "./ultils/constain";
 import { System } from "./containers/System";
+import  HomeAdmin  from './containers/Public/AdminPage/HomeAdmin'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path={path.BOOKINGV2} element={<BookingV2 />} />
         <Route path={path.BOOKINGV3} element={<BookingV3 />} />
         <Route path={path.SYSTEM} element={<System />} />
+        <Route path={path.ADMIN} element={<HomeAdmin />} />
       </Routes>
     </div>
   );
