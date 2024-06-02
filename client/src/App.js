@@ -4,6 +4,7 @@ import { path } from "./ultils/constain";
 import { System } from "./containers/System";
 import  HomeAdmin  from './containers/Public/AdminPage/HomeAdmin'
 
+
 function App() {
   return (
     <div className="bg-primary">

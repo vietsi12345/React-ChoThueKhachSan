@@ -5,7 +5,10 @@ const HomeAdmin = () => {
     return (
         <div className=' homeAdmin'>
             <SlideBar />
-            <TestLinhTinh />
+            <div className='content-admin'>
+                <TestLinhTinh />
+            </div>
+            
         </div >
     )
 };

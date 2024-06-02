@@ -17,7 +17,11 @@ export const apiGetListCities = () => new Promise(async (resolve, reject) => {
     try {
         const response = await axiosConfig({
             method: 'get',
-            url: '/api/hotel/get/locations'
+            url: '/api/hotel/get/locations',
+            headers: {
+                'Content-Type': 'application/json', // Không bắt buộc cho yêu cầu GET, nhưng tốt để có
+                // 'Authorization': 'Bearer your_token_here' // Nếu yêu cầu xác thực
+            }
         })
         resolve(response)
     } catch (error) {
