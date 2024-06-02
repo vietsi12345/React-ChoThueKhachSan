@@ -7,6 +7,8 @@ import reduxStore from './redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { BrowserRouter } from "react-router-dom";
 
+
+
 const { store, persistor } = reduxStore()
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

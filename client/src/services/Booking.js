@@ -5,9 +5,13 @@ export const apiNewCreateBooking = ({ checkInDate, checkOutDate, guestFullName, 
     try {
         const response = await axios({
             method: 'post',
-            url: 'http://localhost:8081/api/booking/book',
+            url: 'http://localhost:8080/api/booking/book',
             data: {
                 checkInDate, checkOutDate, guestFullName, guestEmail, numOfAdults, numOfChildren, note, totalPrice, roomId, hotelId
+            },
+            headers: {
+                'Content-Type': 'application/json', // Đảm bảo server của bạn có thể xử lý JSON
+                // 'Authorization': 'Bearer your_token_here' // Nếu yêu cầu xác thực, thay thế 'your_token_here' bằng token thực tế
             }
         })
         resolve(response)
