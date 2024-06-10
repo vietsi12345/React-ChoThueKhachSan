@@ -9,7 +9,8 @@ export const path = {
     BOOKING: '/booking/:nameHotel/:idhotel/:typeRoom/:idRoom',
     BOOKINGV2: '/booking/v2/:nameHotel/:idhotel/:typeRoom/:idRoom',
     BOOKINGV3: '/booking/v3/:nameHotel/:idhotel/:typeRoom/:idRoom/:booking_id',
-    SYSTEM: '/admin/*'
+    SYSTEM: '/admin/*',
+    ADMIN: '/adminn/*'
 }
 export const location = [
     {
