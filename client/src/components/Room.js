@@ -6,11 +6,18 @@ import { formatVietNameseToSring } from '../ultils/common/formatVietNameseToSrin
 
 const { IoBedOutline, IoPeopleOutline } = icons
 
-const Room = ({ nameType, price, nameHotel, idHotel, idRoom }) => {
+const Room = ({ nameType, price, nameHotel, idHotel, idRoom, startDate, endDate, adults, children, quantity }) => {
     const navigate = useNavigate()
 
     const handleGoBooking = () => {
-        navigate(`/booking/${formatVietNameseToSring(nameHotel)}/${idHotel}/${formatVietNameseToSring(nameType)}/${idRoom}`)
+        navigate(`/booking/${formatVietNameseToSring(nameHotel)}/${idHotel}/${formatVietNameseToSring(nameType)}/${idRoom}`, {
+            state: {
+                startDate,
+                endDate,
+                adults,
+                children
+            }
+        })
     }
 
     return (
@@ -30,7 +37,7 @@ const Room = ({ nameType, price, nameHotel, idHotel, idRoom }) => {
             <div className='w-[178px] border border-gray-300 p-2 flex flex-col items-end gap-1'>
                 <div className='text-xs bg-[#BAF075] p-1 mt-3 text-green-900 font-semibold rounded-md w-fit'>SALE ĐÔNG NAM Á</div>
                 <p className='font-semibold text-orange-600'>{formatMonneyVietNam(price)}</p>
-                <span className='text-sm text-gray-700'>Bao gồm thuế và phí</span>
+                <span className='text-sm text-gray-700'>{`Còn : ${quantity} phòng`}</span>
             </div>
 
             <div className='w-[136px] border border-gray-300 p-2  '>

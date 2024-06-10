@@ -20,4 +20,57 @@ export const apiNewCreateBooking = ({ checkInDate, checkOutDate, guestFullName, 
     }
 })
 
+export const apiGetBookingsByEmail = (guestEmail) => new Promise(async (resolve, reject) => {
+    try {
+        // Tạo một đối tượng URLSearchParams và thêm keyword vào đó
+        const params = new URLSearchParams();
+        params.append('guestEmail', guestEmail);
+
+        // Gửi yêu cầu GET với chuỗi truy vấn
+        const response = await axiosConfig({
+            method: 'get',
+            url: `/api/booking/get-by-email?${params.toString()}`
+        });
+
+        resolve(response);
+    } catch (error) {
+        reject(error);
+    }
+});
+
+export const apiBooKingSuccess = (code) => new Promise(async (resolve, reject) => {
+    try {
+        const formData = new FormData();
+        formData.append('code', code);
+
+        const response = await axiosConfig({
+            method: 'put',
+            url: `/api/booking/success-booking-code`,
+            data: formData, // Truyền formData vào phần data
+            headers: {
+                'Content-Type': 'multipart/form-data', // Đặt Content-Type là 'multipart/form-data'
+            },
+        });
+
+        resolve(response);
+    } catch (error) {
+        reject(error);
+    }
+});
+
+export const apiCancelBooking = (bookingId) => new Promise(async (resolve, reject) => {
+    try {
+
+
+        const response = await axiosConfig({
+            method: 'get',
+            url: `/api/booking/cancel-booking/${bookingId}`,
+        });
+
+        resolve(response);
+    } catch (error) {
+        reject(error);
+    }
+});
+
 

@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { FaPlus, FaMinus, FaUser, FaCaretDown } from 'react-icons/fa';
 
-const SearchOfPeople = () => {
-    const [rooms, setRooms] = useState(1);
-    const [adults, setAdults] = useState(1);
-    const [children, setChildren] = useState(0);
+const SearchOfPeople = ({ rooms, setRooms, adults, setAdults, children, setChildren }) => {
+
     const [dropdownOpen, setDropdownOpen] = useState(false);
 
     const handleRoomsChange = (delta) => {
@@ -26,7 +24,7 @@ const SearchOfPeople = () => {
     };
 
     return (
-        <div className="relative  text-lef bg-white rounded-lg">
+        <div className="relative  text-left bg-white rounded-lg">
             <div className="border border-gray-300 rounded-lg  p-1 hover:cursor-pointer flex items-center justify-between"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
             >

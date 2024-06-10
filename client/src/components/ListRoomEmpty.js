@@ -11,7 +11,7 @@ const { TbResize, GiShower, IoLogoNoSmoking,
     BiFridge, LuAirVent, TbListDetails, GrCaretPrevious, GrCaretNext } = icons
 
 
-const ListRoomEmpty = ({ nameType, id, nameHotel }) => {
+const ListRoomEmpty = ({ nameType, id, nameHotel, startDate, endDate, adults, children }) => {
     const dispatch = useDispatch()
     // const { roomsByIdHotel } = useSelector(state => state.room)
     const [roomsByIdHotel, setRoomsByIdHotel] = useState(null);
@@ -80,6 +80,11 @@ const ListRoomEmpty = ({ nameType, id, nameHotel }) => {
                                 idHotel={id} key={item.id}
                                 nameHotel={nameHotel}
                                 idRoom={item?.id}
+                                quantity={item?.quantity}
+                                startDate={startDate}
+                                endDate={endDate}
+                                adults={adults}
+                                children={children}
                             />;
                         })
                     }

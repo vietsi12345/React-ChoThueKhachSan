@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import icons from '../../ultils/icon'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { apiZaloPay } from '../../services/ZaloPay'
+import { useDispatch } from 'react-redux'
+import { updateBookingSuccess } from '../../store/actions'
 
 
 const { TbCircleNumber1, TbCircleNumber2, TbCircleNumber3, GoDotFill, FaCheck, RxAvatar } = icons
@@ -10,6 +12,13 @@ const { TbCircleNumber1, TbCircleNumber2, TbCircleNumber3, GoDotFill, FaCheck, R
 
 const BookingV3 = () => {
     const navigate = useNavigate()
+    const { booking_id } = useParams()
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(updateBookingSuccess(booking_id))
+    }, [])
+
 
     const goHome = () => {
         navigate('/')

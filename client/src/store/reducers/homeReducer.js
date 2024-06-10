@@ -3,6 +3,7 @@ import actionType from "../actions/actionType";
 
 const initstate = {
     homes: [],
+    homesSearch: [],
     msg: '',
     cities: [],
     homesByCity: [],
@@ -14,6 +15,12 @@ const homeReducer = (state = initstate, action) => {
             return {
                 ...state,
                 homes: action.homes || [],
+                msg: action.msg || [],
+            }
+        case actionType.SEARCH_HOMES:
+            return {
+                ...state,
+                homesSearch: action.homesSearch || [],
                 msg: action.msg || [],
             }
         case actionType.GET_ALLCITIES:

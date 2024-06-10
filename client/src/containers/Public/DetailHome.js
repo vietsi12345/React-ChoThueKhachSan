@@ -23,15 +23,30 @@ const DetailHome = () => {
         dispath(actions.getHotelByID(id))
     }, []);
 
-    const location = useLocation()
-    const id = location.pathname.split('/').pop()
-
-    // xử lì chọnn ngày trên thanh search
     const today = new Date();
     const tomorrow = new Date();
     tomorrow.setDate(today.getDate() + 1);
-    const [startDate, setStartDate] = useState(today);
-    const [endDate, setEndDate] = useState(tomorrow);
+
+    const location = useLocation()
+    const id = location.pathname.split('/').pop()
+    const { startDate1, endDate1, adults1, children1, rooms1 } = location.state || {
+        startDate1: today,
+        endDate1: tomorrow,
+        adults1: 1,
+        children1: 0,
+        rooms1: 1
+    }
+
+    // xử lì chọnn ngày trên thanh search
+
+
+    const [startDate, setStartDate] = useState(startDate1);
+    const [endDate, setEndDate] = useState(endDate1);
+    const [rooms, setRooms] = useState(rooms1);
+    const [adults, setAdults] = useState(adults1);
+    const [children, setChildren] = useState(children1);
+
+
 
     return (
 
@@ -41,6 +56,9 @@ const DetailHome = () => {
                 endDate={endDate}
                 setStartDate={setStartDate}
                 setEndDate={setEndDate}
+                rooms={rooms} setRooms={setRooms}
+                adults={adults} setAdults={setAdults}
+                children={children} setChildren={setChildren}
             />
             <div className='w-[1100px] h-[288px] mt-5 flex gap-2'>
                 {hotelByID?.photo ? (
@@ -67,7 +85,11 @@ const DetailHome = () => {
             </div>
             <NavbarDetail price={hotelByID?.price?.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })} />
             <OverviewDetail name={hotelByID?.name} address={hotelByID?.address} description={hotelByID?.description} />
-            <RoomOfHome name={hotelByID?.name} id={id} />
+            <RoomOfHome name={hotelByID?.name} id={id}
+                startDate={startDate} endDate={endDate}
+                adults={adults}
+                children={children}
+            />
             <div id='kslq' className='rounded-xl w-[1100px]  bg-blue-100 p-5 pt-7 flex flex-col gap-1'>
                 <h2 className='font-semibold text-lg'>Cơ sở lưu trú khác bạn có thể thích</h2>
                 <h2 className=' text-sm'>Cơ sở lưu trú tương tự đã được khách chọn</h2>
