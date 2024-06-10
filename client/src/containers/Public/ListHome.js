@@ -6,8 +6,7 @@ import * as actions from '../../store/actions'
 import { apiGetHomesByCityName } from '../../services/Home';
 import { secondsToHours } from 'date-fns';
 
-const arrCity = ['Vũng Tàu', 'Hồ Chí Minh', 'Đà Nẵng', 'Hà Nội', 'Nha Trang'];
-const arrText = [1, 2, 3, 4, 5, 6, 7, 8]
+
 
 const ListHome = () => {
     const { cities, homesByCity } = useSelector(state => state.home) // lấy danh sách thành phố , khách sạn của thành phố đó 

@@ -1,5 +1,5 @@
 import actionType from "./actionType";
-import { apiGetAlltHomes, apiGetHomesByCityName, apiGetHotelByID, apiGetListCities } from '../../services/Home'
+import { apiGetAlltHomes, apiGetHomesByCityName, apiGetHotelByID, apiGetListCities, apiSearchHomesByName } from '../../services/Home'
 
 export const getAllHome = () => async (dispath) => {
     try {
@@ -22,6 +22,31 @@ export const getAllHome = () => async (dispath) => {
         dispath({
             type: actionType.GET_ALLHOME,
             homes: null
+        })
+    }
+}
+
+export const homesSearch = (keyword) => async (dispath) => {
+    try {
+        const response = await apiSearchHomesByName(keyword)
+        if (response.status === 200) {
+
+            dispath({
+                type: actionType.SEARCH_HOMES,
+                homesSearch: response.data
+            })
+        } else {
+
+            dispath({
+                type: actionType.SEARCH_HOMES,
+                msg: 'Lỗi'
+            })
+        }
+
+    } catch (error) {
+        dispath({
+            type: actionType.SEARCH_HOMES,
+            homesSearch: null
         })
     }
 }

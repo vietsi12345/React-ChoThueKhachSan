@@ -6,6 +6,7 @@ import { apiZaloPay } from '../../services/ZaloPay'
 import { formatMonneyVietNam } from '../../ultils/common/formatMonneyVietNam'
 import { formatVietNameseToSring } from '../../ultils/common/formatVietNameseToSring'
 import * as actions from '../../store/actions'
+import { format } from 'date-fns'
 
 
 const { TbCircleNumber1, TbCircleNumber2, TbCircleNumber3, GoDotFill, FaCheck, RxAvatar } = icons
@@ -17,7 +18,7 @@ const BookingV2 = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const location = useLocation();
-    const { nameHotel, roomType, total, name, phone, email, idHotel, idRoom } = location.state || {};
+    const { nameHotel, roomType, total, name, phone, email, idHotel, idRoom, startDate, endDate, adults, children, bookingConfirmationCode } = location.state || {};
     const { dataPostNew } = useSelector(state => state.booking)
     // console.log(confirmationCode)
     const handleChange = (e) => {
@@ -42,25 +43,21 @@ const BookingV2 = () => {
         return () => clearInterval(timer);
     }, [time])
 
+    const formatDateString = (date) => {   // CHUYỂN định dạng ngày từ giờ đông dương = > 02-03-2024
+        return format(date, 'yyyy-MM-dd');
+    };
+
+
+
     useEffect(() => {
         window.scrollTo(0, 0)
-        const bookingData = {
-            checkInDate: "2024-06-02",
-            checkOutDate: "2024-06-03",
-            guestFullName: "Nguyễn Viết Sĩaaaa",
-            guestEmail: "adadad",
-            numOfAdults: 1,
-            numOfChildren: 2,
-            note: "200",
-            totalPrice: 200,
-            roomId: 1,
-            hotelId: 1
-        }
-        dispatch(actions.postNewCreateBooking(bookingData))
     }, [])
 
     const getConfirmationCode = () => {
-        return dataPostNew?.message?.match(/\d+$/)[0];
+        if (bookingConfirmationCode) {
+            return bookingConfirmationCode
+        }
+        else return dataPostNew?.message?.match(/\d+$/)[0];
     }
 
     const formatTime = (seconds) => {
@@ -190,7 +187,7 @@ const BookingV2 = () => {
                                 <div className='p-5 bg-white rounded-lg flex flex-col gap-3'>
                                     <button
                                         className='bg-orange-500 text-white font-semibold text-lg p-3 rounded-lg hover:bg-orange-700'
-                                        onClick={() => handlePayment(`http://localhost:3000/booking/v3/${formatVietNameseToSring(nameHotel)}/${idHotel}/${formatVietNameseToSring(nameHotel)}/${idRoom}`, total)}
+                                        onClick={() => handlePayment(`http://localhost:3000/booking/v3/${formatVietNameseToSring(nameHotel)}/${idHotel}/${formatVietNameseToSring(nameHotel)}/${idRoom}/${getConfirmationCode()}`, total)}
                                     >
                                         {isShowOptioneVietQR ? `Thanh toán bằng VietQR` : `Thanh toán bằng ZaloPay`}
                                     </button>
@@ -211,18 +208,18 @@ const BookingV2 = () => {
                                     <h3 className='font-semibold text-base text-center'>{nameHotel}</h3>
                                     <div className='flex gap-5 px-4 justify-center' >
                                         <span className='text-base text-gray-500'>Ngày nhận phòng: </span>
-                                        <span className='text-base text-black'>Tue, 28 May 2024, Từ 15:00</span>
+                                        <span className='text-base text-black'>{`${format(startDate, 'EEEE, dd-MM-yyyy')}`}</span>
                                     </div>
                                     <div className='flex gap-5 px-4 justify-center'>
                                         <span className='text-base text-gray-500'>Ngày trả phòng: </span>
-                                        <span className='text-base text-black'>Wed, 29 May 2024, Trước 12:00</span>
+                                        <span className='text-base text-black'>{`${format(endDate, 'EEEE, dd-MM-yyyy')}`}</span>
                                     </div>
                                 </div>
                                 <div className='bg-white flex flex-col p-4 gap-3 rounded-md'>
                                     <h3 className='font-semibold  mt-3'>{roomType}</h3>
                                     <div className='flex gap-3 items-center'>
                                         <img src='https://d1785e74lyxkqq.cloudfront.net/_next/static/v2/3/377ee1b8105881b249bd015d717ccf4f.svg' />
-                                        <span className='text-base text-gray-600'>3 khách</span>
+                                        <span className='text-base text-gray-600'>{`${adults} người lớn, ${children} trẻ em`}</span>
                                     </div>
                                     <div className='flex gap-3 items-center'>
                                         <img src='https://d1785e74lyxkqq.cloudfront.net/_next/static/v2/0/089ab79c91e595414ce6be5e7c98aa39.svg' />

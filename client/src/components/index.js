@@ -8,6 +8,7 @@ export { default as Room } from './Room'
 export { default as DatePicked } from './DatePicked'
 export { default as SearchOfPeople } from './SearchOfPeople'
 export { default as DetailRoom } from './SearchOfPeople'
+export { default as MybookingsItem } from './MybookingsItem'
 
 //abc
 //haha

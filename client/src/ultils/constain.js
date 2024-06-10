@@ -3,9 +3,12 @@ export const path = {
     LOGIN: 'login',
     REGISTER: 'register',
     DETAIL__NAME__ID: 'chi-tiet/:name/:id',
+    PROFILES: 'profiles',
+    MYPROFILES: 'my-profiles',
+    MYBOOKING: 'my-booking',
     BOOKING: '/booking/:nameHotel/:idhotel/:typeRoom/:idRoom',
     BOOKINGV2: '/booking/v2/:nameHotel/:idhotel/:typeRoom/:idRoom',
-    BOOKINGV3: '/booking/v3/:nameHotel/:idhotel/:typeRoom/:idRoom',
+    BOOKINGV3: '/booking/v3/:nameHotel/:idhotel/:typeRoom/:idRoom/:booking_id',
     SYSTEM: '/admin/*'
 }
 export const location = [

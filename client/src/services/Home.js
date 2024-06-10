@@ -13,6 +13,24 @@ export const apiGetAlltHomes = () => new Promise(async (resolve, reject) => {
     }
 })
 
+export const apiSearchHomesByName = (keyword) => new Promise(async (resolve, reject) => {
+    try {
+        // Tạo một đối tượng URLSearchParams và thêm keyword vào đó
+        const params = new URLSearchParams();
+        params.append('keyword', keyword);
+
+        // Gửi yêu cầu GET với chuỗi truy vấn
+        const response = await axiosConfig({
+            method: 'get',
+            url: `/api/hotel/search?${params.toString()}`
+        });
+
+        resolve(response);
+    } catch (error) {
+        reject(error);
+    }
+});
+
 export const apiGetListCities = () => new Promise(async (resolve, reject) => {
     try {
         const response = await axiosConfig({

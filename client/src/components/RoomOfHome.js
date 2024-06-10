@@ -21,7 +21,7 @@ const tooltipCircleStyle = {
     top: '-1px',
 };
 
-const RoomOfHome = ({ name, id }) => {
+const RoomOfHome = ({ name, id, startDate, endDate, children, adults }) => {
 
     const [checkedValues, setCheckedValues] = useState([]) // mảng lưu id của các checkbox nếu được chọn
     const dispatch = useDispatch()
@@ -102,7 +102,11 @@ const RoomOfHome = ({ name, id }) => {
             {typeRoom?.map((item) => {
                 // console.log('roomofroom', item)
                 return (
-                    <ListRoomEmpty nameType={item} key={item} id={id} nameHotel={name} />
+                    <ListRoomEmpty nameType={item} key={item} id={id} nameHotel={name}
+                        startDate={startDate} endDate={endDate}
+                        adults={adults}
+                        children={children}
+                    />
                 )
             })}
         </div>

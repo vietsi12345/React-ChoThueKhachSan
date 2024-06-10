@@ -6,6 +6,7 @@ import { formatVietNameseToSring } from '../../ultils/common/formatVietNameseToS
 import { formatMonneyVietNam } from '../../ultils/common/formatMonneyVietNam';
 import * as actions from '../../store/actions'
 import { GiPodiumSecond } from 'react-icons/gi';
+import { format } from 'date-fns';
 
 const { TbCircleNumber1, TbCircleNumber2, TbCircleNumber3, CiClock2, IoIosCloseCircle } = icons
 
@@ -25,6 +26,8 @@ const Booking = () => {
     const navigate = useNavigate()
     const location = useLocation()
     const dispatch = useDispatch()
+
+    const { startDate, endDate, adults, children } = location.state || {}
 
 
     const { hotelByID } = useSelector(state => state.home)
@@ -82,7 +85,29 @@ const Booking = () => {
         navigate('/')
     }
 
+    const formatDateString = (date) => {
+        return format(date, "EEEE, dd-MM-yyyy")
+    }
+
+    const formatDateStringSend = (date) => {   // CHUYỂN định dạng ngày từ giờ đông dương = > 02-03-2024
+        return format(date, 'yyyy-MM-dd');
+    };
+
     const goBooKingV2 = () => {
+        const bookingData = {
+            checkInDate: formatDateStringSend(startDate),
+            checkOutDate: formatDateStringSend(endDate),
+            guestFullName: name,
+            guestEmail: email,
+            numOfAdults: adults,
+            numOfChildren: children,
+            note: "",
+            totalPrice: roomById?.roomPrice + Math.round(+roomById?.roomPrice * 1 / 100),
+            roomId: idRoom,
+            hotelId: idHotel
+        }
+        dispatch(actions.postNewCreateBooking(bookingData))
+
         navigate(`/booking/v2/${formatVietNameseToSring(nameHotel)}/${idHotel}/${formatVietNameseToSring(nameType)}/${idRoom}`, {
             state: {
                 nameHotel: hotelByID.name,
@@ -93,6 +118,10 @@ const Booking = () => {
                 email: email,
                 idHotel: idHotel,
                 idRoom: idRoom,
+                startDate,
+                endDate,
+                adults,
+                children
             }
         })
     }
@@ -261,11 +290,11 @@ const Booking = () => {
                                 <div className='p-4 flex flex-col justify-center '>
                                     <div className='flex gap-5 px-4'>
                                         <span className='text-base text-gray-500'>Ngày nhận phòng: </span>
-                                        <span className='text-base text-black'>Tue, 28 May 2024, Từ 15:00</span>
+                                        <span className='text-base text-black'>{`${formatDateString(startDate)}`}</span>
                                     </div>
                                     <div className='flex gap-5 px-4'>
                                         <span className='text-base text-gray-500'>Ngày trả phòng: </span>
-                                        <span className='text-base text-black'>Wed, 29 May 2024, Trước 12:00</span>
+                                        <span className='text-base text-black'>{`${formatDateString(endDate)}`}</span>
                                     </div>
                                 </div>
                                 <div className='bg-white flex flex-col p-4 gap-3 rounded-md'>
@@ -275,7 +304,7 @@ const Booking = () => {
                                     <h3 className='font-semibold text-lg mt-3'>{roomById?.roomType}</h3>
                                     <div className='flex gap-3 items-center'>
                                         <img src='https://d1785e74lyxkqq.cloudfront.net/_next/static/v2/3/377ee1b8105881b249bd015d717ccf4f.svg' />
-                                        <span className='text-base text-gray-600'>3 khách</span>
+                                        <span className='text-base text-gray-600'>{`${adults} người lớn, ${children} trẻ em`}</span>
                                     </div>
                                     <div className='flex gap-3 items-center'>
                                         <img src='https://d1785e74lyxkqq.cloudfront.net/_next/static/v2/0/089ab79c91e595414ce6be5e7c98aa39.svg' />
